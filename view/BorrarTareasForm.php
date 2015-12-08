@@ -70,7 +70,7 @@ include(TEMPLATE_PATH.'menu.php');
 		<td>Anotaciones posteriores</td><td><input type="text" name="anot_despues" value="<?=$tareas['anot_despues'];?> readonly"></td>
 	</tr>
 	<tr>
-		<td colspan"2">ESTA REALMENTE SEGURO DE QUE DESEA BORRAR LA TAREA?</td>
+		<td colspan"2">SEGURO DE BORRAR?</td>
 	</tr>
 	<tr>
 		<td>	

@@ -58,9 +58,9 @@ include(TEMPLATE_PATH.'menu.php');
 	<tr>
 		<td>Estado</td>
 		<td>
-			<input type="radio" name="estado" value="P" <?php if($tareas['estado']="P") echo "checked";?>>Pendiente
-			<input type="radio" name="estado" value="R" <?php if($tareas['estado']="R") echo "checked";?>>Realizada
-			<input type="radio" name="estado" value="C" <?php if($tareas['estado']="C") echo "checked";?>>Cancelada
+			<input type="radio" name="estado" value="P" <?php if($tareas['estado']=="P") echo "checked";?>>Pendiente
+			<input type="radio" name="estado" value="R" <?php if($tareas['estado']=="R") echo "checked";?>>Realizada
+			<input type="radio" name="estado" value="C" <?php if($tareas['estado']=="C") echo "checked";?>>Cancelada
 		</td>
 	</tr>
 	<tr>

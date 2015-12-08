@@ -17,6 +17,7 @@ include(TEMPLATE_PATH.'encabezado.php');
 include(TEMPLATE_PATH.'menu.php'); 
 ?>
 <h1>Listado de tareas</h1>
+<div style="height: 300px;">
 <table>
     <tr>
         <th>Código</th>
@@ -34,6 +35,7 @@ include(TEMPLATE_PATH.'menu.php');
     </tr>
 <?php endforeach; ?>
 </table>
+</div>
 <br>
 <div style="margin-left: 240px;" id="paginador"><?php MuestraPaginador($nPag, $totalPaginas, $myURL)?></div>
 

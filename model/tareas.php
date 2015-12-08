@@ -1,27 +1,5 @@
 <?php
-/*
-$model_tareas=array(
-    array('id'=>1, 'nombre'=>'tarea1'),
-    array('id'=>2, 'nombre'=>'tarea2'),
-    array('id'=>4, 'nombre'=>'tarea4'),
-    array('id'=>5, 'nombre'=>'tarea5'),
-    array('id'=>10, 'nombre'=>'tarea10'),
-);
 
-/**
- * Devuelve las tareas existentes.
- * Simulamos lectura de base de datos
- * @global array $model_tareas
- * @return array
- */
-/*
-
-function GetTareas()
-{
-    global $model_tareas;
-    return $model_tareas;
-}
-*/
 include 'patron.php';
 
 //Devuelve array con el id y la descripcion de cada una de las tareas
@@ -43,8 +21,6 @@ function ListarTareas($nReg, $nElementosxPagina)
 	return $tareas;
 }
 
-
-
 function ConsultaProvincias()
 {
 	$db = Database::getInstance();
@@ -58,6 +34,7 @@ function ConsultaProvincias()
 	}
 	return $provincias;
 }
+
 function ObtenerProvincia($codProvincia)
 {
 	$db = Database::getInstance();
@@ -154,6 +131,7 @@ function ModificarTarea($datos)
 	$db->cerrar();
 }
 
+
 function AnotarTarea($datos)
 {
 	//instanciamos y nos conectamos
@@ -169,6 +147,25 @@ function AnotarTarea($datos)
 	$db->cerrar();
 }
 
+function BuscarTarea($datos)
+{
+	//instanciamos y nos conectamos
+	$db = Database::getInstance();
+	
+	$tareas=array();
+	$condiciones=implode(' and ',$datos);
+	$sql ="select id_tarea as Codigo, descripcion as Tarea, fecha_crea, provincia, estado from tbl_tareas where $condiciones";
+	
+	$db->Consulta($sql);
+	while ($fila = $db->LeeRegistro())
+	{
+		
+		$tareas[]=[$fila['Codigo'], $fila['Tarea'],$fila['fecha_crea'],$fila['provincia'],$fila['estado']];
+	}
+	
+	$db->cerrar();
+	return $tareas;
+}
 
 
 
@@ -194,8 +191,8 @@ function VerError($campo)
 function MuestraPaginador($pag_actual, $nPags, $url)
 {
 	// Mostramos paginador
-	echo '<div style="text-align=center">';
-	echo EnlaceAPagina($url, 1, 'Inicio');
+	echo '<div>';
+	echo EnlaceAPagina($url,1, 'Inicio');
 	echo EnlaceAPagina($url, $pag_actual-1, 'Anterior', $pag_actual>1);
 	for($pag=1; $pag<=$nPags; $pag++)
 	{
@@ -221,23 +218,36 @@ function MuestraPaginador($pag_actual, $nPags, $url)
 function EnlaceAPagina($url, $pag, $texto, $activo=true)
 {
 	if ($activo)
-		return '<a href="'.$url.'?pag='.$pag.'">'.$texto.'</a> ';
+		return '<a href="'.$url.'?pag='.$pag.'">'.'<button style="width: 80px;">'.$texto.'</button></a> ';
 	else
-		return $texto;
+		return '<button style="width: 80px;">'.$texto.'</button>';
 }
 
-//BIBLIOTECA DE FUNCIONES
-
-//Display errores
-/*function VerError($campo)
+function CreaSelect($array, $name)
 {
-	global $errores;
-	if (isset($errores[$campo]))
+	echo "<select name=\"".$name."\">";
+
+	foreach($array as $clave=>$valor)
 	{
-		echo $errores[$campo];
+
+		echo "<option value=\"".$clave."\">".$valor;
 	}
+
+	echo "</select>";
 }
-*/
+
+function CreaSelect2($array, $name)
+{
+	echo "<select name=\"".$name."\">";
+
+	foreach($array as $clave=>$valor)
+	{
+
+		echo "<option value=\"".$valor."\">".$valor;
+	}
+
+	echo "</select>";
+}
 //Función para crear selects
 function CreaSelect3($array, $name, $selected='')
 {
@@ -259,18 +269,7 @@ function CreaSelect3($array, $name, $selected='')
 	echo "</select>";
 }
 
-function CreaSelect($array, $name)
-{
-	echo "<select name=\"".$name."\">";
 
-	foreach($array as $clave=>$valor)
-	{
-		
-		echo "<option value=\"".$clave."\">".$valor;
-	}
-
-	echo "</select>";
-}
 
 function BorrarTarea($id)
 {

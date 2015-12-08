@@ -1,4 +1,4 @@
-<footer style="background: #ccffcc">
-    Powered by Daniel
+<footer style="background: #ccffcc;" >
+    Desarrollado por Daniel
 </footer>
 
