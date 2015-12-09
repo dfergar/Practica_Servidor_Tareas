@@ -1,13 +1,3 @@
-<?php 
-if (isset($errores)) // Evaluamos N� elementos
-{
-	foreach($errores as $clave=>$error)
-	{
-		VerError($clave);
-		?><br><?php
-	}
-}
-?>
 <?php
 /**
  * VISTA QUE MUESTA FORMULARIO DE MODIFICACIONES
@@ -59,9 +49,9 @@ include(TEMPLATE_PATH.'menu.php');
 	<tr>
 		<td>Estado</td>
 		<td>
-			<input type="radio" name="estado" value="P" <?php if($tareas['estado']=="P") echo "checked";?>>Pendiente
-			<input type="radio" name="estado" value="R" <?php if($tareas['estado']=="R") echo "checked";?>>Realizada
-			<input type="radio" name="estado" value="C" <?php if($tareas['estado']=="C") echo "checked";?>>Cancelada
+			<input type="radio" name="estado" value="P" <?php if($tareas['estado']=='P') echo "checked";?>>Pendiente															  
+			<input type="radio" name="estado" value="R" <?php if($tareas['estado']=='R') echo "checked";?>>Realizada
+			<input type="radio" name="estado" value="C" <?php if($tareas['estado']=='C') echo "checked";?>>Cancelada																			
 		</td>
 	</tr>
 	<tr>
@@ -71,7 +61,7 @@ include(TEMPLATE_PATH.'menu.php');
 		<td>Operario encargado</td><td><input type="text" name="operario" value="<?=$tareas['operario'];?>"></td>
 	</tr>
 	<tr>
-		<td>Fecha de realización</td><td><input type="text" name="fecha_realiza" value="<?=date('d/m/Y',strtotime($tareas['fecha_realiza']));?>"></td>
+		<td>Fecha de realización</td><td><input type="text" name="fecha_realiza" value="<?=$tareas['fecha_realiza'];?>"></td>
 	</tr>
 	<tr>
 		<td>Anotaciones anteriores</td><td><input type="text" name="anot_antes" value="<?=$tareas['anot_antes'];?>"></td>
@@ -85,6 +75,16 @@ include(TEMPLATE_PATH.'menu.php');
 
 </table>
 </form>
+<?php 
+if (isset($errores)) // Evaluamos Nº elementos
+{
+	foreach($errores as $clave=>$error)
+	{
+		VerError($clave);
+		?><br><?php
+	}
+}
+?>
 <?php
 include(TEMPLATE_PATH.'pie.php');
 ?>

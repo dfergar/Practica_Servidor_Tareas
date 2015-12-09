@@ -6,6 +6,7 @@ $provincias=ConsultaProvincias();
 $codigo = $_REQUEST['id'];
 $tareas=array();
 $tareas=VerTareas($codigo);
+$tareas['fecha_realiza']=date('d/m/Y',strtotime($tareas['fecha_realiza']));
 
 if (! $_POST)
 {
@@ -28,15 +29,26 @@ $datos['provincia']=$_REQUEST['provincia'];
 $datos['estado']=$_REQUEST['estado'];
 $datos['fecha_crea']=$_REQUEST['estado'];
 $datos['operario']=$_REQUEST['operario'];
-$datos['fecha_realiza']=implode('/',array_reverse(explode('/',$_REQUEST['fecha_realiza'])));;
+$datos['fecha_realiza']=$_REQUEST['fecha_realiza'];
 $datos['anot_antes']=$_REQUEST['anot_antes'];
 $datos['anot_despues']=$_REQUEST['anot_despues'];
 
-ModificarTarea($datos);
+$errores=FiltradoTareas($datos);
+if (!empty($errores))
+{
+	$tareas=$datos;
+	
+	include (VIEW_PATH.'ModificarTareaform.php');
+}
+else
+{
+	$datos['fecha_realiza']=date("Y-m-d",strtotime(implode('-',array_reverse(explode('/',$_REQUEST['fecha_realiza'])))));
+	ModificarTarea($datos);
+	$mensaje="Tarea Modificada";
+	include 'inicio.php';
+}
 
-$mensaje="Tarea Modificada";
 
-include 'inicio.php';
 
 
 

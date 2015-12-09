@@ -13,11 +13,11 @@ include(TEMPLATE_PATH.'menu.php');
 <form action="#" method="POST">
 	<table>
 		<tr>
-			<td>Fecha realización</td>			
-			<td><?=CreaSelect2($modificadores,'modificador')?><input type="text" name="fecha_crea"></td>
+			<td>Fecha creación</td>			
+			<td><?=CreaSelect2($modificadores,'modificador')?><input type="text" name="fecha_crea" value="<?php if(isset($_POST['fecha_crea'])) echo $_POST['fecha_crea']?>"></td>
 		</tr>
 		<tr>
-			<td>Provincia</td><td><input type="checkbox" name="cualquiera" value=1>Todas<?php	CreaSelect($provincias, "provincia");?>
+			<td>Provincia</td><td><input type="checkbox" name="cualquiera" value=1>Todas<?php	isset($datos['provincia']) ? CreaSelect3($provincias, "provincia",$datos['provincia']) : CreaSelect3($provincias, "provincia") ?>
 		</tr>
 		<tr>
 		<td>Estado</td>
@@ -32,6 +32,16 @@ include(TEMPLATE_PATH.'menu.php');
 			<td><input type="submit" value="Enviar"></td>
 	</table>
 </form>
+<?php 
+if (isset($errores)) // Evaluamos Nº elementos
+{
+	foreach($errores as $clave=>$error)
+	{
+		VerError($clave);
+		?><br><?php
+	}
+}
+?>
 <?php
 include(TEMPLATE_PATH.'pie.php');
 ?>

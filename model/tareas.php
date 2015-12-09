@@ -9,17 +9,18 @@ function ListarTareas($nReg, $nElementosxPagina)
 	$db = Database::getInstance();
 
 	$tareas= array();
-	$sql ="select id_tarea as Codigo, descripcion as Tarea from tbl_tareas LIMIT $nReg, $nElementosxPagina";
+	$sql ="select id_tarea, descripcion from tbl_tareas order by fecha_crea desc LIMIT $nReg, $nElementosxPagina ";
 		
 	$db->Consulta($sql);
 	while ($fila = $db->LeeRegistro())
 	{
-		$tareas[$fila['Codigo']]=$fila['Tarea'];
+		$tareas[$fila['id_tarea']]=$fila['descripcion'];
 	}
 		
 	$db->cerrar();
 	return $tareas;
 }
+
 
 function ConsultaProvincias()
 {
@@ -147,27 +148,25 @@ function AnotarTarea($datos)
 	$db->cerrar();
 }
 
-function BuscarTarea($datos)
+function BuscarTarea($condiciones="")
 {
 	//instanciamos y nos conectamos
 	$db = Database::getInstance();
 	
 	$tareas=array();
-	$condiciones=implode(' and ',$datos);
-	$sql ="select id_tarea as Codigo, descripcion as Tarea, fecha_crea, provincia, estado from tbl_tareas where $condiciones";
+	
+	$sql ="select id_tarea, descripcion, fecha_crea, provincia, estado from tbl_tareas $condiciones";
 	
 	$db->Consulta($sql);
 	while ($fila = $db->LeeRegistro())
 	{
 		
-		$tareas[]=[$fila['Codigo'], $fila['Tarea'],$fila['fecha_crea'],$fila['provincia'],$fila['estado']];
+		$tareas[]=['id_tarea'=>$fila['id_tarea'], 'descripcion'=>$fila['descripcion'], 'fecha_crea'=>$fila['fecha_crea'], 'provincia'=>$fila['provincia'], 'estado'=>$fila['estado']];
 	}
 	
 	$db->cerrar();
 	return $tareas;
 }
-
-
 
 
 function VerError($campo)
@@ -193,10 +192,11 @@ function MuestraPaginador($pag_actual, $nPags, $url)
 	// Mostramos paginador
 	echo '<div>';
 	echo EnlaceAPagina($url,1, 'Inicio');
-	echo EnlaceAPagina($url, $pag_actual-1, 'Anterior', $pag_actual>1);
+	echo EnlaceAPagina($url, $pag_actual-1, 'Anterior', $pag_actual>1, false);
 	for($pag=1; $pag<=$nPags; $pag++)
 	{
-		echo EnlaceAPagina($url, $pag, $pag, $pag_actual!=$pag);
+		echo EnlaceAPagina($url, $pag, $pag, $pag_actual!=$pag, true);
+		
 	}
 	echo EnlaceAPagina($url, $pag_actual+1, 'Siguiente', $pag_actual<$nPags);
 	echo EnlaceAPagina($url, $nPags, 'Fin');
@@ -215,12 +215,12 @@ function MuestraPaginador($pag_actual, $nPags, $url)
  * @param bool $activo		Se muestra enlace (true) o no (false)
  * @return string
  */
-function EnlaceAPagina($url, $pag, $texto, $activo=true)
+function EnlaceAPagina($url, $pag, $texto, $activo=true, $botonpagina=false)
 {
 	if ($activo)
 		return '<a href="'.$url.'?pag='.$pag.'">'.'<button style="width: 80px;">'.$texto.'</button></a> ';
-	else
-		return '<button style="width: 80px;">'.$texto.'</button>';
+	else		
+	 	if($botonpagina) return '<button style="width: 80px;background-color: yellow;">'.$texto.'</button>';else return '<button style="width: 80px;">'.$texto.'</button>';
 }
 
 function CreaSelect($array, $name)
@@ -285,46 +285,122 @@ function BorrarTarea($id)
 }
 
 
-/*
-function FiltradoTareas($codigo)
+
+function FiltradoTareas($datos)
 {
-	/*Los campos descripci�n y persona de contacto debe tener alg�n valor
-El tel�fono de contacto debe tener un valor y si existe debe tener un formato v�lido, s�lo n�meros, y caracteres de separaci�n (espacio, gui�n, y otros que estim�is oportuno).
-El c�digo postal, si existe, debe tener un formato v�lido, 5 n�meros.
-La provincia debe ser alg�na de las existentes en espa�a. Se debe permitir seleccionar la provincia de una lista deplegable. 
-El correo electr�nico es obligatorio y debe tener un formato correcto.
-La fecha de realizaci�n debe tener un formato v�lido y ser posterior a la fecha actual.
-La fecha de creaci�n no se podr� modificar.
+	
 	$errores=array();
 
-	//Expresi�nes regulares 
+	//Expresiones regulares 
 	$telefono="/^\d{9}/i";
+	$cp="/^\d{5}/i";
+	$email="/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i";
+	$fecha="/^\d{2}\/\d{2}\/\d{4}$/i";
 
-	if (!preg_match($telefono, $provincia))
+	//Descripción en blanco
+	if ($datos['descripcion']=="")
 	{
-		$errores['sololetras']="Debe introducir palabras compuestas de letras, que pueden estar separadas por un espacio";
+		$errores['descripcion']="Debe introducir alguna descripción de la tarea";
 	}
-
-	//Provincia en blanco
-	if ($provincia=="")
+	
+	//Contacto en blanco
+	if ($datos['contacto']=="")
 	{
-		$errores['provincia']="Debe introducir algún nombre de provincia";
+		$errores['contacto']="Debe introducir algun contacto";
 	}
-
-	//Provincia existe
-	$existe=false;
-	global $provincias;
-	foreach($provincias as $id => $nombre)
+	
+	//Teléfono en blanco o en formato inválido
+	 if (!preg_match($telefono, $datos['telefono']))
 	{
-		if($provincia==$nombre)
-		{
-			$existe=true;
-		}
+		$errores['telefono']="Debe introducir algun teléfono en formato válido de 9 digitos";
 	}
-	if ($existe) $errores['existe']="La provincia ya existe en la base de datos";
+	
+	//Codigo postal en formato inválido
+	 if (!preg_match($cp, $datos['cp']))
+	 {
+	 	$errores['cp']="Debe introducir un código postal en formato válido de 5 digitos";
+	 }
+	 
+	 //Correo electrónico en formato inválido
+	  if (!preg_match($email, $datos['email']))
+	 {
+	 	$errores['email']="Debe introducir un correo electrónico en formato válido";
+	 }
+	 
+	 //Comprobación de formato correcto de fecha 
+	 if (preg_match($fecha, $datos['fecha_realiza']))
+	 {
+	 	//Si formato correcto comprobar validez de la fecha
+	 	if (!comprobarfecha($datos['fecha_realiza']))
+	 	{
+	 		$errores['fecha_realiza_posible']="La fecha introducida no existe";
+	 	}
+	 	else
+	 	{ 		
+	 		$fecha_in=date("Y-m-d",strtotime(implode('-',array_reverse(explode('/',$_REQUEST['fecha_realiza'])))));	 		
+	 		$actual=date('Y-m-d');
+	 		if($fecha_in<=$actual)
+	 		{
+	 			$errores['fecha_pasada']="La fecha de realización del trabajo debe ser posterior a la actual";
+	 		}
+	 		
+	 	}
+	 	
+	 }
+	 else 
+	 {
+	 	$errores['fecha_realiza_formato']="Debe introducir una fecha en el formato DD/MM/AAAA";
+	 }
+	 
+	 
+	 	
 
 	return $errores;
-}*/
+}
+
+//Filtrado de la búsqueda
+function FiltradoBusqueda($fecha_in)
+{
+
+	$errores=array();
+
+	//Expresiones regulares	
+	$fecha="/^\d{2}\/\d{2}\/\d{4}$/i";	
+
+	//Comprobación de formato correcto de fecha
+	if (preg_match($fecha, $fecha_in))
+	{
+		//Si formato correcto comprobar validez de la fecha
+		if (!comprobarfecha($fecha_in))
+		{
+			$errores['fecha_crea_posible']="La fecha introducida no existe";
+		}		
+		 
+	}
+	else
+	{
+		$errores['fecha_crea_formato']="Debe introducir una fecha en el formato DD/MM/AAAA";
+	}
+
+
+	 
+
+	return $errores;
+}
+
+function comprobarfecha($fecha)
+{
+	
+	$partes = explode('/',$fecha);
+	
+	$dia = $partes[0];
+	
+	$mes = $partes[1];
+	
+	$anio = $partes[2];	
+	
+	return checkdate($mes, $dia, $anio);
+}
 
 
 

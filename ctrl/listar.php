@@ -11,15 +11,15 @@ $nElementosxPagina=10;
 // Calculamos el número de página que mostraremos
 if (isset($_GET['pag']))
 {
-	// Leemos de GET el n�mero de p�gina
+	// Leemos de GET el número de página
 	$nPag=$_GET['pag'];
 }
 else
 {
-	// Mostramos la primera p�gina
+	// Mostramos la primera página
 	$nPag=1;
 }
-$totalRegistros=NumeroTareas();
+$totalRegistros=NumeroTareas()-1;
 
 $totalPaginas=floor($totalRegistros/$nElementosxPagina)+1;
 
