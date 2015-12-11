@@ -2,7 +2,12 @@
 
 include 'patron.php';
 
-//Devuelve array con el id y la descripcion de cada una de las tareas
+/**
+ * Devuelve array con el id y la descripcion de cada una de las tareas
+ * @param int $nReg con el registro inicio para LIMIT
+ * @param int $nElementosxPagina con el numero de registros/pagina
+ * @return array con lista de tareas
+ */
 function ListarTareas($nReg, $nElementosxPagina)
 {
 	//instanciamos y nos conectamos
@@ -21,7 +26,10 @@ function ListarTareas($nReg, $nElementosxPagina)
 	return $tareas;
 }
 
-
+/**
+ * Consulta en tabla provincias
+ * @return array con provincias
+ */
 function ConsultaProvincias()
 {
 	$db = Database::getInstance();
@@ -36,6 +44,11 @@ function ConsultaProvincias()
 	return $provincias;
 }
 
+/**
+ * Consulta en tabla de provincias
+ * @param  $codProvincia, id de la provincia
+ * @return string nombre de la provincia
+ */
 function ObtenerProvincia($codProvincia)
 {
 	$db = Database::getInstance();
@@ -46,6 +59,11 @@ function ObtenerProvincia($codProvincia)
 	return $fila['nombre'];
 }
 
+/**
+ * Consulta para ver UNA tarea
+ * @param $id, id tipo int de la tarea
+ * @return array con todos los campos de la tarea
+ */
 function VerTareas($id)
 {
 	$db = Database::getInstance();
@@ -57,7 +75,9 @@ function VerTareas($id)
 	
 }
 
-function NumeroTareas()
+/**
+ * Consulta en tabla tareas
+ */function NumeroTareas()
 {
 	//instanciamos y nos conectamos
 	$db = Database::getInstance();
@@ -70,6 +90,10 @@ function NumeroTareas()
 	return $fila['total'];
 }
 
+/**
+ * Consulta para insercion de tarea
+ * @param $datos array con datos de la nueva tarea
+ */
 function NuevaTarea($datos)
 {
 	//instanciamos y nos conectamos
@@ -107,6 +131,10 @@ function NuevaTarea($datos)
 
 }
 
+/**
+ * Consulta de modificación de tarea
+ * @param array $datos con los nuevos datos de tarea
+ */
 function ModificarTarea($datos)
 {	
 	//instanciamos y nos conectamos
@@ -132,7 +160,10 @@ function ModificarTarea($datos)
 	$db->cerrar();
 }
 
-
+/**
+ * Consulta para modificaion parcial de tarea
+ * @param array $datos modificados
+ */
 function AnotarTarea($datos)
 {
 	//instanciamos y nos conectamos
@@ -148,6 +179,11 @@ function AnotarTarea($datos)
 	$db->cerrar();
 }
 
+/**
+ * Consulta para buscar tareas
+ * @param string $condiciones cadena de elementos "where.."
+ * @return array con los datos de la tarea encontrada
+ */
 function BuscarTarea($condiciones="")
 {
 	//instanciamos y nos conectamos
@@ -169,7 +205,9 @@ function BuscarTarea($condiciones="")
 }
 
 
-function VerError($campo)
+/**
+ * Escribe el mensaje de error
+ */function VerError($campo)
 {
 
 	global $errores;
@@ -184,8 +222,8 @@ function VerError($campo)
  * Muestra un paginador para una lista de elementos
  *
  * @param int $pag_actual
- * @param unknown $nPags
- * @param unknown $url
+ * @param $nPags int numero de paginas según nelementos/pagina
+ * @param $URL direccion de la pagina que muestra la lista
  */
 function MuestraPaginador($pag_actual, $nPags, $url)
 {
@@ -206,10 +244,10 @@ function MuestraPaginador($pag_actual, $nPags, $url)
 
 
 /**
- * Devuelve el texto de un enlace (etiqueta <a>) a la p�gina $url si el enlace est� activo,
+ * Devuelve el texto de un enlace (etiqueta <a>) a la página $url si el enlace está activo,
  * en otro caso solo devuelve el texto
  *
- * @param string $url		URL de la p�gina que muestra la lista
+ * @param string $url		URL de la página que muestra la lista
  * @param int $pag			Nº de página al cual enlazamos
  * @param string $texto		Texto del enlace
  * @param bool $activo		Se muestra enlace (true) o no (false)
@@ -223,7 +261,12 @@ function EnlaceAPagina($url, $pag, $texto, $activo=true, $botonpagina=false)
 	 	if($botonpagina) return '<button style="width: 80px;background-color: yellow;">'.$texto.'</button>';else return '<button style="width: 80px;">'.$texto.'</button>';
 }
 
-function CreaSelect($array, $name)
+/**
+ * Creador de selects
+ * @param array $array con los valores de la lista del select
+ * @param string $name con el nombre del select
+ */
+ function CreaSelect($array, $name)
 {
 	echo "<select name=\"".$name."\">";
 
@@ -236,6 +279,11 @@ function CreaSelect($array, $name)
 	echo "</select>";
 }
 
+/**
+ * Creador de selects
+ * @param array $array con los valores de la lista del select
+ * @param string $name con el nombre del select
+ */
 function CreaSelect2($array, $name)
 {
 	echo "<select name=\"".$name."\">";
@@ -248,7 +296,13 @@ function CreaSelect2($array, $name)
 
 	echo "</select>";
 }
-//Función para crear selects
+
+/**
+ * Creador de selects
+ * @param array $array con los valores de la lista del select
+ * @param string $name con el nombre del select
+ * @param string $selected con el valor que estaba previamente seleccionado
+ */
 function CreaSelect3($array, $name, $selected='')
 {
 	echo "<select name=\"".$name."\">";
@@ -269,8 +323,10 @@ function CreaSelect3($array, $name, $selected='')
 	echo "</select>";
 }
 
-
-
+/**
+ * 
+ * @param unknown $id
+ */
 function BorrarTarea($id)
 {
 	
@@ -292,8 +348,8 @@ function FiltradoTareas($datos)
 	$errores=array();
 
 	//Expresiones regulares 
-	$telefono="/^\d{9}/i";
-	$cp="/^\d{5}/i";
+	$telefono="/^\d{9}$/i";
+	$cp="/^\d{5}$/i";
 	$email="/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i";
 	$fecha="/^\d{2}\/\d{2}\/\d{4}$/i";
 

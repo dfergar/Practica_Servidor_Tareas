@@ -6,7 +6,7 @@ include(MODEL_PATH.'tareas.php');
 // Ruta URL desde la que ejecutamos el script
 $myURL='listar.php';
 
-$nElementosxPagina=10;
+$nElementosxPagina=5;
 
 // Calculamos el número de página que mostraremos
 if (isset($_GET['pag']))

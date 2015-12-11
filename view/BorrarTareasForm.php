@@ -67,7 +67,7 @@ include(TEMPLATE_PATH.'menu.php');
 		<td>Anotaciones anteriores</td><td><input type="text" name="anot_antes" value="<?=$tareas['anot_antes'];?>" readonly></td>
 	</tr>
 	<tr>
-		<td>Anotaciones posteriores</td><td><input type="text" name="anot_despues" value="<?=$tareas['anot_despues'];?> readonly"></td>
+		<td>Anotaciones posteriores</td><td><input type="text" name="anot_despues" value="<?=$tareas['anot_despues'];?>" readonly></td>
 	</tr>
 	<tr>
 		<td colspan"2">SEGURO DE BORRAR?</td>

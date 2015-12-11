@@ -24,6 +24,7 @@ if(!empty($_REQUEST['fecha_crea']))
 	if (!empty($errores))
 	{
 		include (VIEW_PATH.'buscarform.php');
+		exit;
 	}
 	else 
 	{

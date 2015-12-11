@@ -59,7 +59,7 @@ include(TEMPLATE_PATH.'menu.php');
 		<td>Fecha de realización</td><td><input type="text" name="fecha_realiza" value="<?php if(isset($_POST['fecha_realiza'])) echo $_POST['fecha_realiza']?>"></td>
 	</tr>
 	<tr>
-		<td>Anotaciones anteriores</td><td><input type="text" name="anot_antes" value="<?php if(isset($_POST['poblacion'])) echo $_POST['poblacion']?>"></td>
+		<td>Anotaciones anteriores</td><td><input type="text" name="anot_antes" value="<?php if(isset($_POST['anot_antes'])) echo $_POST['anot_antes']?>"></td>
 	</tr>
 	<tr>
 		<td>Anotaciones posteriores</td><td><input type="text" name="anot_despues" value="<?php if(isset($_POST['anot_despues'])) echo $_POST['anot_despues']?>"></td>
