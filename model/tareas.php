@@ -1,4 +1,10 @@
 <?php
+/**
+ * Daniel Fernández García
+ * 12/12/2015
+ * V: 1.0
+ * Funciones del modelo y utilidades
+ */
 
 include 'patron.php';
 
@@ -324,8 +330,8 @@ function CreaSelect3($array, $name, $selected='')
 }
 
 /**
- * 
- * @param unknown $id
+ * Consulta para borrado de tareas
+ * @param int $id id de tarea
  */
 function BorrarTarea($id)
 {
@@ -341,7 +347,11 @@ function BorrarTarea($id)
 }
 
 
-
+/**
+ * Filtro tareas usanso exresiones regulares y funciones
+ * @param array $datos datos de tarea
+ * @return array $errores con los errores encontrados
+ */
 function FiltradoTareas($datos)
 {
 	
@@ -414,7 +424,11 @@ function FiltradoTareas($datos)
 	return $errores;
 }
 
-//Filtrado de la búsqueda
+/**
+ * Filtrado de la busqueda de tareas
+ * @param string $fecha_in fecha creacion tarea
+ * @return array $errores con los errores encontrados
+ */
 function FiltradoBusqueda($fecha_in)
 {
 
@@ -444,6 +458,11 @@ function FiltradoBusqueda($fecha_in)
 	return $errores;
 }
 
+/**
+ * Función Comprobador de fecha válida
+ * @param string $fecha 
+ * @return boolean
+ */
 function comprobarfecha($fecha)
 {
 	

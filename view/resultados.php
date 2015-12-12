@@ -1,6 +1,6 @@
 <?php
 /**
- * VISTA QUE MUESTA LA LISTA DE TAREAS.
+ * VISTA QUE MUESTA LA LISTA DE TAREAS TRAS LA BUSQUEDA
  * El controlador será el que nos proporcine en la variable $tareas
  * las tareas a mostrar
  */

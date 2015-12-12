@@ -1,3 +1,9 @@
+<?php
+/**
+ * VISTA QUE MUESTA FORMULARIO DE BUSQUEDA
+ * 
+ */
+?>
 <html>
     <head>
         <title>Controlador frontal</title>

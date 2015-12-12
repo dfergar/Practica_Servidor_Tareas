@@ -1,4 +1,11 @@
 <?php
+/**
+ * Daniel Fernández García
+ * 12/12/2015
+ * V: 1.0
+ * Capa de abstracción para acceso a la base de datos
+ * Patrón Singleton
+ */
 
 include '../config.php';
 
@@ -18,7 +25,7 @@ class Database
 	// Evitamos el clonaje
 	private function __clone(){}
 	
-	//Crear instancia �nica
+	//Crear instancia única
 	public static function getInstance()
 	{
 		if (self::$instance == null)
@@ -71,13 +78,13 @@ class Database
 		return $this->regActual;
 	}
 	
-	//Devuelve el �ltimo registro
+	//Devuelve el último registro
 	public function RegistroActual()
 	{
 		return $this->regActual;
 	}
 	
-	//Dvuelve el valor del �ltimo campo autonum�rico insertado
+	//Dvuelve el valor del último campo autonumérico insertado
 	public function LastID()
 	{
 		return $this->link->insert_id;

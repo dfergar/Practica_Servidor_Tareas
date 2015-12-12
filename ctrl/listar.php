@@ -1,4 +1,11 @@
 <?php
+/**
+ * Daniel Fernández García
+ * 12/12/2015
+ * V: 1.0
+ * Controlador para listar tareas paginadas
+ */
+
 include 'constantes.php';
 
 include(MODEL_PATH.'tareas.php');
@@ -6,6 +13,7 @@ include(MODEL_PATH.'tareas.php');
 // Ruta URL desde la que ejecutamos el script
 $myURL='listar.php';
 
+//Elementos por página
 $nElementosxPagina=5;
 
 // Calculamos el número de página que mostraremos
@@ -29,7 +37,7 @@ $nReg=($nPag-1)*$nElementosxPagina;
 /* Muesta la lista de tareas */
 $tareas= ListarTareas($nReg, $nElementosxPagina);
 
-
+//Mostramos la vista del listado de tareas
 include(VIEW_PATH.'listar.php');
 
 

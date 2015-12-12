@@ -1,3 +1,9 @@
+<?php
+/**
+ * VISTA QUE MUESTA EL INICIO
+ * 
+ */
+?>
 <html>
     <head>
         <title>Controlador frontal</title>

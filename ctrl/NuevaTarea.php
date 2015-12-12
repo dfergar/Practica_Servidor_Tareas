@@ -1,10 +1,16 @@
 <?php
+/**
+ * Daniel Fernández García
+ * 12/12/2015
+ * V: 1.0
+ * Controlador Alta de tareas
+ */
+
 include 'constantes.php';
 
 include(MODEL_PATH.'tareas.php');
 
-
-// Suponemos que no habr� errores
+//Obtener provincias
 $provincias=ConsultaProvincias();
 
 $errores=array();
@@ -16,7 +22,7 @@ if (! $_POST)
 }
 
 $datos = array();
-
+//Captura de datos del form
 $datos['descripcion']=$_REQUEST['descripcion'];
 $datos['contacto']=$_REQUEST['contacto'];
 $datos['telefono']=$_REQUEST['telefono'];
@@ -31,14 +37,18 @@ $datos['fecha_realiza']=$_REQUEST['fecha_realiza'];
 $datos['anot_antes']=$_REQUEST['anot_antes'];
 $datos['anot_despues']=$_REQUEST['anot_despues'];
 
+//FIltrado
 $errores=FiltradoTareas($datos);
 if (!empty($errores))
 {
+	//Hay errores
 	include (VIEW_PATH.'NuevaTareaform.php');
 }
 else 
 {
+	//No haty errores
 	$datos['fecha_realiza']=date("Y-m-d",strtotime(implode('-',array_reverse(explode('/',$_REQUEST['fecha_realiza'])))));
+	//Envío de datos al modelo
 	NuevaTarea($datos);
 	$mensaje="Tarea introducida ";	
 	include 'inicio.php';

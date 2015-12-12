@@ -1,8 +1,8 @@
 <?php
 /**
- * VISTA QUE MUESTA LA LISTA DE TAREAS.
+ * VISTA QUE MUESTA UNA TAREA.
  * El controlador será el que nos proporcine en la variable $tareas
- * las tareas a mostrar
+ * los campos de la tarea a mostrar
  */
 ?>
 <html>
