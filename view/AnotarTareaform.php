@@ -1,5 +1,5 @@
 <?php 
-if (isset($errores)) // Evaluamos N� elementos
+if (isset($errores)) // Evaluamos Nº elementos
 {
 	foreach($errores as $clave=>$error)
 	{
