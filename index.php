@@ -8,5 +8,37 @@
  * diferentes páginas
  */
 
-header('Location: ctrl/inicio.php');
+//header('Location: ctrl/inicio.php');
+
+
+header('Location: login_form.php?errorusuario=no');
+
+/*
+ if (isset($_POST))
+ {
+
+ include('model/tareas.php');
+ $usuario=$_POST["usuario"];
+ $contrasena=$_POST["contrasena"];
+ if(ValidaUsuario($usuario,$contrasena))
+ {
+ session_start();
+ header('Location: ctrl/inicio.php');
+ }
+ else
+ {
+ header("Location: index.php");
+ }
+ }
+ else
+ {
+ ?>
+ <form action="#" method="POST">
+ Usuario<input type="text" name="usuario">
+ <br>
+ Password<input type="password" name="contrasena">
+ </form>
+ <?php
+ }
+ ?>*/
 

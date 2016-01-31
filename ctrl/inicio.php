@@ -6,4 +6,5 @@ if(!isset($mensaje)) $mensaje="";
 
 
 include(VIEW_PATH.'inicio.php');
+?>
 

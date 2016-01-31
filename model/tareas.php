@@ -32,6 +32,21 @@ function ListarTareas($nReg, $nElementosxPagina)
 	return $tareas;
 }
 
+function ValidaUsuario($n_usuario, $contrasena)
+{
+	//instanciamos y nos conectamos
+	$db = Database::getInstance();
+	$usuario = [];
+	$sql="select * from usuarios where user='$n_usuario' and pass='$contrasena'";
+	$db->Consulta($sql);
+	while ($fila = $db->LeeRegistro())
+	{
+		return true;
+	}
+	return false;
+	
+}
+
 /**
  * Consulta en tabla provincias
  * @return array con provincias
